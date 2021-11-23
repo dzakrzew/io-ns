@@ -22,7 +22,6 @@ class ReportGenerator:
         self.results[method].append(result)
     
     def generate_report(self, filename = 'report.html'):
-        
         template = open(os.path.join('reports', 'static', '_layout.html.template'), 'r').read()
 
         machine = {
@@ -30,7 +29,7 @@ class ReportGenerator:
             'processor': platform.processor()
         }
 
-        html = template.format(results_json = json.dumps(self.results), machine_json = json.dumps(machine))
+        html = template.format(results_json = json.dumps(self.results), machine_json = json.dumps(machine), date = datetime.now())
 
         f = open(os.path.join('reports', filename), 'w')
         f.write(html)

@@ -10,6 +10,7 @@
 
         <script>
             window.ions_machine = {machine_json};
+            window.ions_date = "{date}";
             window.ions_results = {results_json};
         </script>
         <script src="./static/script.js"></script>
