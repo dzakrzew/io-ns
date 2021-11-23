@@ -2,31 +2,9 @@ import subprocess
 import json
 import glob
 import os
+from report_generator import ReportGenerator
 
-calculation_results = {}
-
-def add_calculation_result(method, input_file, size, hash, execution_time):
-    if method not in calculation_results:
-        calculation_results[method] = []
-    
-    calculation_results[method].append([input_file, size, hash, execution_time])
-
-def generate_report():
-    html = '<!DOCTYPE html><html><head><title>IO-NS</title><meta charset="utf-8"></head><style>table, table * { border: 1px solid black; }</style><body>'
-
-    for method in calculation_results:
-        html += '<h1>' + method + '</h1>'
-        html += '<table><tr><th>Input file</th><th>Size</th><th>Hash</th><th>Execution time</th></tr>'
-
-        for results in calculation_results[method]:
-            html += '<tr><td>' + results[0] + '</td><td>' + str(results[1]) + ' B</td><td>' + results[2] + '</td><td>' + results[3] + 's</td></tr>'
-        
-        html += '</table>'
-
-    html += '</body></html>'
-    f = open('reports/report.html', 'w')
-    f.write(html)
-    f.close()
+report_generator = ReportGenerator()
 
 # list of available methods
 methods = ['md5', 'sha256']
@@ -52,8 +30,8 @@ for method in methods:
             out = json.loads(result)
             size = os.path.getsize(input_file)
 
-            add_calculation_result(method, input_file, size, out['hash'], out['execution_time'])
+            report_generator.add_calculation_result(method, generator, input_file, size, out['hash'], out['execution_time'])
             print('[', method, '] Result for', input_file, '[', size, 'bytes ]:', out['hash'], 'in', out['execution_time'], 'seconds')
 
 print('Generating report...')
-generate_report()
+report_generator.generate_report()
