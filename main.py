@@ -31,6 +31,11 @@ def generate_report():
 # list of available methods
 methods = ['md5', 'sha256']
 
+# generators
+generators = {
+    'Python': 'python3.6 generators/hash.py'
+}
+
 # detecting input files
 input_files = glob.glob('inputs/in*.txt')
 input_files.sort()
@@ -39,15 +44,16 @@ print('IO-NS')
 print('Found', len(input_files), 'input files')
 
 for method in methods:
-    print('Calculating', method, 'hashes')
+    for generator in generators:
+        print('[*] Calculating', method, 'hashes using', generator)
 
-    for input_file in input_files:
-        result = subprocess.check_output(['python3.6', 'generators/hash.py', '--method', method, '--file', input_file])
-        out = json.loads(result)
-        size = os.path.getsize(input_file)
+        for input_file in input_files:
+            result = subprocess.check_output(generators[generator].split(' ') + ['--method', method, '--file', input_file])
+            out = json.loads(result)
+            size = os.path.getsize(input_file)
 
-        add_calculation_result(method, input_file, size, out['hash'], out['execution_time'])
-        print('[', method, '] Result for', input_file, '[', size, 'bytes ]:', out['hash'], 'in', out['execution_time'], 'seconds')
+            add_calculation_result(method, input_file, size, out['hash'], out['execution_time'])
+            print('[', method, '] Result for', input_file, '[', size, 'bytes ]:', out['hash'], 'in', out['execution_time'], 'seconds')
 
 print('Generating report...')
 generate_report()
