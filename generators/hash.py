@@ -4,7 +4,9 @@ import sys
 import time
 import json
 
-available_methods = ['md5', 'sha256']
+import md4
+
+available_methods = ['md5', 'sha256', 'md4']
 
 def hash_md5(input):
     # start measuring time
@@ -23,6 +25,19 @@ def hash_sha256(input):
     execution_time = time.time() - start_time
 
     return (file_hash.hexdigest(), execution_time)
+
+
+def hash_md4(input):
+    # start measuring time
+    start_time = time.time()
+
+    # file_hash = hashlib.new('md4', input)
+    file_hash = md4.MD4(input)
+    execution_time = time.time() - start_time
+
+    return (file_hash.hexdigest(), execution_time)
+
+
 
 def print_response(hash, execution_time):
     output = json.dumps({'hash': hash, 'execution_time': "{:.10f}".format(execution_time)})
@@ -56,8 +71,16 @@ if selected_method == 'md5':
     # return response as json on stdout
     print_response(file_hash, execution_time)
     sys.exit(0)
+
 elif selected_method == 'sha256':
     file_hash, execution_time = hash_sha256(file_content)
+
+    # return response as json on stdout
+    print_response(file_hash, execution_time)
+    sys.exit(0)
+
+elif selected_method == 'md4':
+    file_hash, execution_time = hash_md4(file_content)
 
     # return response as json on stdout
     print_response(file_hash, execution_time)
