@@ -3,6 +3,7 @@ import argparse
 import sys
 import time
 import json
+from python_generators.sha256 import SHA256
 
 available_methods = ['md5', 'sha256']
 
@@ -19,10 +20,10 @@ def hash_sha256(input):
     # start measuring time
     start_time = time.time()
 
-    file_hash = hashlib.sha256(file_content)
+    file_hash = SHA256.digest(file_content)
     execution_time = time.time() - start_time
 
-    return (file_hash.hexdigest(), execution_time)
+    return (file_hash, execution_time)
 
 def print_response(hash, execution_time):
     output = json.dumps({'hash': hash, 'execution_time': "{:.10f}".format(execution_time)})
