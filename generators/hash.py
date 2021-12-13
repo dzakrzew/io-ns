@@ -5,8 +5,9 @@ import time
 import json
 from python_generators.sha256 import SHA256
 from python_generators.sha512 import SHA512
+from python_generators.sha1 import SHA1
 
-available_methods = ['md5', 'sha256', 'sha512']
+available_methods = ['md5', 'sha256', 'sha512', 'sha1']
 
 def hash_md5(input):
     # start measuring time
@@ -31,6 +32,15 @@ def hash_sha512(input):
     start_time = time.time()
 
     file_hash = SHA512.digest(file_content)
+    execution_time = time.time() - start_time
+
+    return (file_hash, execution_time)
+
+def hash_sha1(input):
+    # start measuring time
+    start_time = time.time()
+
+    file_hash = SHA1.digest(file_content)
     execution_time = time.time() - start_time
 
     return (file_hash, execution_time)
@@ -76,6 +86,13 @@ elif selected_method == 'sha256':
     sys.exit(0)
 elif selected_method == 'sha512':
     file_hash, execution_time = hash_sha512(file_content)
+
+    # return response as json on stdout
+    print_response(file_hash, execution_time)
+    sys.exit(0)
+    sys.exit(0)
+elif selected_method == 'sha1':
+    file_hash, execution_time = hash_sha1(file_content)
 
     # return response as json on stdout
     print_response(file_hash, execution_time)
