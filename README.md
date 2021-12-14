@@ -17,10 +17,10 @@ The goal of this project is to implement and compare multiple hash functions in 
 * ~~ADLER-32 in Python~~
 * ~~ADLER-32 in C#~~
 * ~~ADLER-32 in C++~~
-* ~~MD4 in Python~~
+* MD4 in Python
 * ~~MD4 in C#~~
 * ~~MD4 in C++~~
-* ~~MD5 in Python~~
+* MD5 in Python
 * ~~MD5 in C#~~
 * ~~MD5 in C++~~
 * ~~CRC-16 in Python~~
