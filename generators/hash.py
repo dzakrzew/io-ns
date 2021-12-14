@@ -3,10 +3,14 @@ import argparse
 import sys
 import time
 import json
+from python_generators.sha256 import SHA256
+from python_generators.sha512 import SHA512
+from python_generators.sha1 import SHA1
+from python_generators.md4 import MD4
+from python_generators.md5 import MD5
 
-import md4
+available_methods = ['sha256', 'sha512', 'sha1','md4', 'md5']
 
-available_methods = ['md5', 'sha256', 'md4']
 
 def hash_md5(input):
     # start measuring time
@@ -21,10 +25,28 @@ def hash_sha256(input):
     # start measuring time
     start_time = time.time()
 
-    file_hash = hashlib.sha256(file_content)
+    file_hash = SHA256.digest(file_content)
     execution_time = time.time() - start_time
 
-    return (file_hash.hexdigest(), execution_time)
+    return (file_hash, execution_time)
+
+def hash_sha512(input):
+    # start measuring time
+    start_time = time.time()
+
+    file_hash = SHA512.digest(file_content)
+    execution_time = time.time() - start_time
+
+    return (file_hash, execution_time)
+
+def hash_sha1(input):
+    # start measuring time
+    start_time = time.time()
+
+    file_hash = SHA1.digest(file_content)
+    execution_time = time.time() - start_time
+
+    return (file_hash, execution_time)
 
 
 def hash_md4(input):
@@ -32,7 +54,17 @@ def hash_md4(input):
     start_time = time.time()
 
     # file_hash = hashlib.new('md4', input)
-    file_hash = md4.MD4(input)
+    file_hash = MD4(input)
+    execution_time = time.time() - start_time
+
+    return (file_hash.hexdigest(), execution_time)
+
+def hash_md5(input):
+    # start measuring time
+    start_time = time.time()
+
+    # file_hash = hashlib.new('md4', input)
+    file_hash = MD5(input)
     execution_time = time.time() - start_time
 
     return (file_hash.hexdigest(), execution_time)
@@ -65,15 +97,22 @@ except Exception as e:
     print('Error while opening the input file:', e)
     sys.exit(1)
 
-if selected_method == 'md5':
-    file_hash, execution_time = hash_md5(file_content)
+if selected_method == 'sha256':
+    file_hash, execution_time = hash_sha256(file_content)
 
     # return response as json on stdout
     print_response(file_hash, execution_time)
     sys.exit(0)
 
-elif selected_method == 'sha256':
-    file_hash, execution_time = hash_sha256(file_content)
+elif selected_method == 'sha512':
+    file_hash, execution_time = hash_sha512(file_content)
+
+    # return response as json on stdout
+    print_response(file_hash, execution_time)
+    sys.exit(0)
+
+elif selected_method == 'sha1':
+    file_hash, execution_time = hash_sha1(file_content)
 
     # return response as json on stdout
     print_response(file_hash, execution_time)
@@ -85,6 +124,14 @@ elif selected_method == 'md4':
     # return response as json on stdout
     print_response(file_hash, execution_time)
     sys.exit(0)
+
+if selected_method == 'md5':
+    file_hash, execution_time = hash_md5(file_content)
+
+    # return response as json on stdout
+    print_response(file_hash, execution_time)
+    sys.exit(0)
+
 else:
     print('Method not implemented')
     sys.exit(1)

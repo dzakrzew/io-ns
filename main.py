@@ -7,7 +7,7 @@ from report_generator import ReportGenerator
 report_generator = ReportGenerator()
 
 # list of available methods
-methods = ['md5', 'sha256', 'md4']
+methods = ['sha256', 'sha512', 'sha1', 'md4', 'md5']
 
 # generators
 generators = {
