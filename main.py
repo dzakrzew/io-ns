@@ -11,7 +11,7 @@ methods = ['sha256', 'sha512', 'sha1', 'md4', 'md5']
 
 # generators
 generators = {
-    'Python': 'python3 generators/hash.py'
+    'Python': 'python3 generators/python/hash.py'
 }
 
 # detecting input files

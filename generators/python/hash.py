@@ -3,14 +3,13 @@ import argparse
 import sys
 import time
 import json
-from python_generators.sha256 import SHA256
-from python_generators.sha512 import SHA512
-from python_generators.sha1 import SHA1
-from python_generators.md4 import MD4
-from python_generators.md5 import MD5
+from hash_functions.sha256 import SHA256
+from hash_functions.sha512 import SHA512
+from hash_functions.sha1 import SHA1
+from hash_functions.md4 import MD4
+from hash_functions.md5 import MD5
 
 available_methods = ['sha256', 'sha512', 'sha1','md4', 'md5']
-
 
 def hash_md5(input):
     # start measuring time
