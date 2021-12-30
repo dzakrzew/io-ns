@@ -13,5 +13,3 @@ class Adler32:
 
         result = (b << 16) | a
         return hex(result)[2:]
-
-print(Adler32.digest('hello'.encode('ascii')))
