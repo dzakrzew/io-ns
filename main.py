@@ -2,20 +2,52 @@ import subprocess
 import json
 import glob
 import os
+import argparse
+import string
+import random
 from report_generator import ReportGenerator
+from config import methods, generators
 
 report_generator = ReportGenerator()
 
-# list of available methods
-methods = ['sha256', 'sha512', 'sha1', 'md4', 'md5']
+def generate_file(output_path, size):
+    f = open(output_path, 'w')
+    content = ''.join([random.choice(string.ascii_letters + string.digits + 'ĄĆĘŁŃÓŚŹŻąćęłńóśźż') for i in range(size)])
+    f.write(content)
+    f.close()
 
-# generators
-generators = {
-    'Python': 'python3 generators/python/hash.py'
-}
+parser = argparse.ArgumentParser(description='IO-NS Hashing algorithms comparison')
+parser.add_argument('--random-sizes', metavar='sizes', help='Generate random files with given instead of reading existing ones (example: 100,1000,10000)')
+args = parser.parse_args()
 
-# detecting input files
-input_files = glob.glob('inputs/in*.txt')
+input_files = None
+
+if args.random_sizes == None:
+    input_files = glob.glob('inputs/*.txt')
+
+    if len(input_files) == 0:
+        print('There are no input files')
+        exit(1)
+else:
+    sizes = args.random_sizes.split(',')
+
+    try:
+        sizes = [int(s) for s in sizes]
+    except Exception as e:
+        print('Invalid --random-sizes parameter contents')
+        exit(1)
+
+    input_files = glob.glob('inputs/*.txt')
+    for f in input_files:
+        os.remove(f)
+
+    i = 0
+    for s in sizes:
+        print('Generating ' + str(s) + ' bytes size file in' + str(i) + '.txt')
+        generate_file('inputs/in' + str(i) + '.txt', s)
+        i += 1
+
+input_files = glob.glob('inputs/*.txt')
 input_files.sort()
 
 print('IO-NS')

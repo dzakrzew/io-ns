@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HashFunctions
 {
-    public class SHA512
+    public class SHA512 : IHashFunction
     {
         UInt64 h0 = 0x6a09e667f3bcc908;
         UInt64 h1 = 0xbb67ae8584caa73b;
@@ -80,7 +80,11 @@ namespace HashFunctions
             return (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)));
         }
 
-        public string Digest(string input)
+        private string hex(UInt64 n) {
+            return n.ToString("x8").PadLeft(16, '0');
+        }
+
+        public override string Digest(byte[] input)
         {
             List<UInt64> message = new List<UInt64>();
 
@@ -193,8 +197,8 @@ namespace HashFunctions
                 h7 = MOD(h7 + h);
             }
 
-            string result = h0.ToString("x8") + h1.ToString("x8") + h2.ToString("x8") + h3.ToString("x8")
-                + h4.ToString("x8") + h5.ToString("x8") + h6.ToString("x8") + h7.ToString("x8");
+            string result = this.hex(h0) + this.hex(h1) + this.hex(h2) + this.hex(h3)
+                + this.hex(h4) + this.hex(h5) + this.hex(h6) + this.hex(h7);
 
             return result;
         }

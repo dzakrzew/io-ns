@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HashFunctions
 {
-    class Blake2b
+    class Blake2b : IHashFunction
     {
         //Init variables
         List<UInt32> output = new List<UInt32>();
@@ -111,7 +111,7 @@ namespace HashFunctions
             }
         }
 
-        void update(string chunks)
+        void update(byte[] chunks)
         {
 
             for (int i = 0; i < chunks.Length; i++)
@@ -128,7 +128,7 @@ namespace HashFunctions
             }
         }
 
-        int init(string key)
+        int init(byte[] key)
         {
             int keylen = key.Length;
             if (outlen == 0 || outlen > 64 || keylen > 64)
@@ -170,9 +170,9 @@ namespace HashFunctions
 
         }
 
-        public string Digest(string message)
+        public override string Digest(byte[] message)
         {
-            init("");
+            init(new byte[] { });
             update(message);
             finalHash();
 

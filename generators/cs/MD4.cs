@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace HashFunctions
 {
-    public class MD4
+    public class MD4 : IHashFunction
     {
         UInt32 mask = 0xFFFFFFFF;
         int width = 32;
 
         List<UInt32> words = new List<UInt32> { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 };
-        string str = "";
 
         private UInt32 F(UInt32 x, UInt32 y, UInt32 z) {
             return (x & y) | (~x & z);
@@ -32,7 +31,7 @@ namespace HashFunctions
             return lbits | rbits;
         }
 
-        public void init(string input)
+        public void init(byte[] input)
         {
             List<UInt32> message = new List<UInt32>();
 
@@ -71,7 +70,7 @@ namespace HashFunctions
             process(message_chunks);
         }
 
-        public string Digest(string message)
+        public override string Digest(byte[] message)
         {
             init(message);
             string s = "";
