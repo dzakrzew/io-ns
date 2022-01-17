@@ -9,7 +9,7 @@ from hash_functions.sha1 import SHA1
 from hash_functions.md4 import MD4
 from hash_functions.md5 import MD5
 
-available_methods = ['sha256', 'sha512', 'sha1','md4', 'md5']
+available_methods = ['sha256', 'sha512', 'sha1', 'md4', 'md5']
 
 def hash_md5(input):
     # start measuring time
@@ -53,20 +53,20 @@ def hash_md4(input):
     start_time = time.time()
 
     # file_hash = hashlib.new('md4', input)
-    file_hash = MD4(input)
+    file_hash = MD4.digest(file_content)
     execution_time = time.time() - start_time
 
-    return (file_hash.hexdigest(), execution_time)
+    return (file_hash, execution_time)
 
 def hash_md5(input):
     # start measuring time
     start_time = time.time()
 
     # file_hash = hashlib.new('md4', input)
-    file_hash = MD5(input)
+    file_hash = MD5.digest(file_content)
     execution_time = time.time() - start_time
 
-    return (file_hash.hexdigest(), execution_time)
+    return (file_hash, execution_time)
 
 
 

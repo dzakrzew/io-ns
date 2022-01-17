@@ -46,7 +46,7 @@ MD4::MD4(string input) {
     }
 
     //uint32_t length = message.size() * 8;
-    unsigned long long ll = static_cast<unsigned __int64>(message.size() * 8);
+    ull ll = static_cast<ull>(message.size() * 8);
 
     //dodanie bitu 128 na koniec wiadomości
     message.push_back(0x80);
