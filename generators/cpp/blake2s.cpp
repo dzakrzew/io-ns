@@ -146,10 +146,11 @@ Blake2s::Blake2s(string key, string message)
 
 string Blake2s::digest() {
     stringstream ss;
+    ss << std::hex;
     string s;
 
     for (int i = 0; i < 32; i++) {
-        ss << std::hex << (int)output[i] << "";
+        ss  << std::setw(2) << std::setfill('0') << (int)output[i] << "";
     }
     ss >> s;
 

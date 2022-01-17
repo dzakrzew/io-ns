@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <sstream>
+#include <iomanip>
 
 #define ul unsigned long
 #define ull unsigned long long
