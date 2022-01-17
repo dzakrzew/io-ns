@@ -1,0 +1,180 @@
+import struct
+
+
+class Blake2b:
+    def __init__(self, key, message):
+        self.output = []
+        self.b = []
+        self.h = []
+        self.t = []
+        self.c = 0
+        self.outlen = 64
+        self.v = []
+        self.blake2s_iv = [
+            0x6a09e667f3bcc908, 0xbb67ae8584caa73b,
+            0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1,
+            0x510e527fade682d1, 0x9b05688c2b3e6c1f,
+            0x1f83d9abfb41bd6b, 0x5be0cd19137e2179
+        ]
+        self.chunks = []
+        self.temp = 0
+
+        self.WORDBITS = 64
+        self.MASKBITS = 0xffffffffffffffff
+
+        self.msri2, self.msri21 = 0, 0
+
+        self.init(key)
+        self.update(message)
+        self.final_hash()
+
+    def G(self, a, b, c, d):
+        ROT1 = 32
+        ROT2 = 24
+        ROT3 = 16
+        ROT4 = 63
+
+        WB_ROT1 = self.WORDBITS - ROT1
+        WB_ROT2 = self.WORDBITS - ROT2
+        WB_ROT3 = self.WORDBITS - ROT3
+        WB_ROT4 = self.WORDBITS - ROT4
+
+        va = self.v[a]
+        vb = self.v[b]
+        vc = self.v[c]
+        vd = self.v[d]
+
+        va = (va + vb + self.msri2) & self.MASKBITS
+        w = vd ^ va
+        vd = (w >> ROT1) | (w << (WB_ROT1)) & self.MASKBITS
+        vc = (vc + vd) & self.MASKBITS
+        w = vb ^ vc
+        vb = (w >> ROT2) | (w << (WB_ROT2)) & self.MASKBITS
+        va = (va + vb + self.msri21) & self.MASKBITS
+        w = vd ^ va
+        vd = (w >> ROT3) | (w << (WB_ROT3)) & self.MASKBITS
+        vc = (vc + vd) & self.MASKBITS
+        w = vb ^ vc
+        vb = (w >> ROT4) | (w << (WB_ROT4)) & self.MASKBITS
+
+        self.v[a] = va
+        self.v[b] = vb
+        self.v[c] = vc
+        self.v[d] = vd
+
+        for k in range(len(self.v)):
+            if self.v[k] < 0:
+                self.v[k] += (1 << 64)
+
+
+    def compress(self, last, chunk):
+        self.temp += 1
+        sigma = [
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            [14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3],
+            [11, 8, 12, 0, 5, 2, 15, 13, 10, 14, 3, 6, 7, 1, 9, 4],
+            [7, 9, 3, 1, 13, 12, 11, 14, 2, 6, 5, 10, 4, 0, 15, 8],
+            [9, 0, 5, 7, 2, 4, 10, 15, 14, 1, 11, 12, 6, 8, 3, 13],
+            [2, 12, 6, 10, 0, 11, 8, 3, 4, 13, 7, 5, 15, 14, 1, 9],
+            [12, 5, 1, 15, 14, 13, 4, 10, 0, 7, 6, 3, 9, 2, 8, 11],
+            [13, 11, 7, 14, 12, 1, 3, 9, 5, 0, 15, 4, 8, 6, 2, 10],
+            [6, 15, 14, 9, 11, 3, 0, 8, 12, 2, 13, 7, 1, 4, 10, 5],
+            [10, 2, 8, 4, 7, 6, 1, 5, 15, 11, 9, 14, 3, 12, 13, 0],
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            [14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3]
+        ]
+
+        self.v = [0] * 16
+        self.v[0: 8] = self.h
+        self.v[8:16] = self.blake2s_iv[:8]
+
+        self.v[12] = self.v[12] ^ self.t[0]
+        self.v[13] = self.v[13] ^ self.t[1]
+        if last != 0:
+            self.v[14] = ~self.v[14]
+
+        chunk += b"\x00" * (-(len(chunk)) % 128)
+        m = struct.unpack_from('<16%s' % 'Q', bytes(chunk))
+
+        for r in range(12):
+            sr = sigma[r]
+            self.msri2 = m[sr[0]]
+            self.msri21 = m[sr[1]]
+            self.G(0, 4, 8, 12)
+            self.msri2 = m[sr[2]]
+            self. msri21 = m[sr[3]]
+            self.G(1, 5, 9, 13)
+            self.msri2 = m[sr[4]]
+            self.msri21 = m[sr[5]]
+            self.G(2, 6, 10, 14)
+            self.msri2 = m[sr[6]]
+            self.msri21 = m[sr[7]]
+            self.G(3, 7, 11, 15)
+            self.msri2 = m[sr[8]]
+            self.msri21 = m[sr[9]]
+            self.G(0, 5, 10, 15)
+            self.msri2 = m[sr[10]]
+            self.msri21 = m[sr[11]]
+            self.G(1, 6, 11, 12)
+            self.msri2 = m[sr[12]]
+            self.msri21 = m[sr[13]]
+            self.G(2, 7, 8, 13)
+            self.msri2 = m[sr[14]]
+            self.msri21 = m[sr[15]]
+            self.G(3, 4, 9, 14)
+
+        self.h = [self.h[i] ^ self.v[i] ^ self.v[i + 8] for i in range(8)]
+
+    def update(self, data):
+        for i in range(0, len(data), 128):
+            self.chunks.append(data[i: i + 128])
+
+        for i in range(len(data)):
+            if self.c == 128:
+
+                self.t[0] += self.c
+                if self.t[0] < self.c:
+                    self.t[1] += 1
+
+                self.compress(0, self.chunks[self.temp])
+                self.c = 0
+
+            self.b[self.c] = data[i]
+            self.c += 1
+
+    def init(self, key=b''):
+        keylen = len(key)
+        for i in range(8):
+            self.h.append(self.blake2s_iv[i])
+
+        self.h[0] = (self.h[0] ^ 0x01010000 ^ (keylen << 8) ^ self.outlen)
+        self.t.append(0)
+        self.t.append(0)
+        self.c = 0
+
+        for i in range(0, 128):
+            self.b.append(0)
+        if keylen > 0:
+            self.update(key)
+            self.c = 128
+
+    def final_hash(self):
+        self.t[0] += self.c
+        if self.t[0] < self.c:
+            self.t[1] += 1
+
+        while self.c < 128:
+            self.b[self.c] = 0
+            self.c += 1
+        self.compress(1, self.chunks[-1])
+
+        for i in range(self.outlen):
+            self.output.append(self.h[i >> 3] >> (8 * (i & 7)) & 0xFF)
+
+        return 0
+
+    def digest(self):
+        s = ""
+        for i in self.output:
+            s += i.to_bytes(1, byteorder='little').hex()
+        return s
