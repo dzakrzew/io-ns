@@ -155,15 +155,3 @@ string Blake2s::digest() {
 
     return s;
 }
-
-///*
-int main() {
-    // klucz, wiadomość
-    // jeśli brak klucza to pusty string
-    Blake2s blake2s("", "hello");
-    string s = blake2s.digest();
-    cout << s << "\n";
-
-    return 0;
-}
-//*/
