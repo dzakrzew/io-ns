@@ -1,0 +1,1 @@
+x86_64-w64-mingw32-g++ -static-libgcc -static-libstdc++ -Wall -Wextra -g sha256.cpp sha512.cpp main.cpp adler32.cpp sha1.cpp crc32.cpp crc16.cpp md4.cpp md5.cpp blake2b.cpp blake2s.cpp -o hash.exe
