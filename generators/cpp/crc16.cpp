@@ -17,12 +17,14 @@ string CRC16::getHex(unsigned long in) {
 string CRC16::digest(string input)
 {
     unsigned short crc = 0xFFFF;
+    unsigned char ch, b;
+    int s = input.size();
 
-    for (int i = 0; i < input.size(); i++) {
-        unsigned char ch = input[i];
+    for (int i = 0; i < s; i++) {
+        ch = input[i];
 
         for (int j = 0; j < 8; j++) {
-            unsigned char b = (ch ^ crc) & 1;
+            b = (ch ^ crc) & 1;
             crc >>= 1;
             if (b) {
                 crc = crc ^ 0x8408;

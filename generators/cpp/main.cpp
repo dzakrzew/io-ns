@@ -120,29 +120,29 @@ int main(int argc, char *argv[])
     }
 
     if (selectedMethod == METHOD_MD4) {
-        MD4 md4(input);
         t1 = std::chrono::high_resolution_clock::now();
+        MD4 md4(input);
         digest = md4.hexdigest();
         t2 = std::chrono::high_resolution_clock::now();
     }
 
     if (selectedMethod == METHOD_MD5) {
-        MD5 md5(input);
         t1 = std::chrono::high_resolution_clock::now();
+        MD5 md5(input);
         digest = md5.hexdigest();
         t2 = std::chrono::high_resolution_clock::now();
     }
 
     if (selectedMethod == METHOD_Blake2b) {
-        Blake2b blake2b(input);
         t1 = std::chrono::high_resolution_clock::now();
+        Blake2b blake2b(input);
         digest = blake2b.digest();
         t2 = std::chrono::high_resolution_clock::now();
     }
 
     if (selectedMethod == METHOD_Blake2s) {
-        Blake2s blake2s(input);
         t1 = std::chrono::high_resolution_clock::now();
+        Blake2s blake2s(input);
         digest = blake2s.digest();
         t2 = std::chrono::high_resolution_clock::now();
     }
