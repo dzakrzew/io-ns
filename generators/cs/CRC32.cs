@@ -36,7 +36,7 @@ namespace HashFunctions
                 }
             }
 
-            return (~crc).ToString("x8");
+            return (~crc).ToString("x8").PadLeft(8, '0');
         }
     }
 }

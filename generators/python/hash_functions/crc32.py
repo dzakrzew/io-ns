@@ -15,4 +15,4 @@ class CRC32:
                     crc = crc ^ 0xEDB88320
                 ch = ch >> 1
 
-        return hex((1 << 32) - 1 - crc)[2:]
+        return hex((1 << 32) - 1 - crc)[2:].zfill(8)

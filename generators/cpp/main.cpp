@@ -134,14 +134,14 @@ int main(int argc, char *argv[])
     }
 
     if (selectedMethod == METHOD_Blake2b) {
-        Blake2b blake2b("", input);
+        Blake2b blake2b(input);
         t1 = std::chrono::high_resolution_clock::now();
         digest = blake2b.digest();
         t2 = std::chrono::high_resolution_clock::now();
     }
 
     if (selectedMethod == METHOD_Blake2s) {
-        Blake2s blake2s("", input);
+        Blake2s blake2s(input);
         t1 = std::chrono::high_resolution_clock::now();
         digest = blake2s.digest();
         t2 = std::chrono::high_resolution_clock::now();

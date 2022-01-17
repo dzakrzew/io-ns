@@ -39,7 +39,7 @@ def generate_test_files():
                 c.process(content)
                 digest = c.finalhex()
             if method == 'crc32':
-                digest = hex(zlib.crc32(content) & 0xffffffff)[2:]
+                digest = hex(zlib.crc32(content) & 0xffffffff)[2:].zfill(8)
             if method == 'md4':
                 digest = hashlib.new('md4', content).hexdigest()
             if method == 'md5':
