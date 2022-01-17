@@ -39,11 +39,12 @@ The goal of this project is to implement and compare multiple hash functions in 
 *strike line – not implemented yet
 
 ## How to run
-This script will test every implementation using input files in `inputs/` directory. Then, the HTML report will be generated.
+The project supports Python >=3.6 and Linux operating system.
+To execute comparison test and generate report for files inside `inputs/` directory, run the following command:
 ```
 python main.py
 ```
-It is also possible to generate random input data with specified size for each execution of script:
+If there are no input files, it is possible to generate random input data with specified size for each execution of script:
 ```
 python main.py --random-sizes 10,100,1024,10240,102400,1048576
 ```
@@ -54,3 +55,7 @@ To execute automated tests that will check every implementation and compare resu
 ```
 python test.py --generate
 ```
+
+## Dependencies
+* To execute tests, it is necessary to install crccheck library: `pip install crccheck`
+* 
