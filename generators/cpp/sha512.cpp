@@ -26,7 +26,7 @@ vector<uint64_t> SHA512::resizeBlock(vector<uint64_t> in) {
 		temp |= (uint64_t) in[i + 6] << 8;
 		temp |= (uint64_t) in[i + 7];
 
-        output[i / 8] = temp.to_ulong();
+        output[i / 8] = temp.to_ullong();
     }
 
     return output;
@@ -38,7 +38,7 @@ string SHA512::digest(string input)
 
     for (unsigned i = 0; i < input.size(); ++i) {
         bitset<8> b(input.c_str()[i]);
-        message.push_back(b.to_ulong());
+        message.push_back(b.to_ullong());
     }
 
     uint64_t length = message.size() * 8;
