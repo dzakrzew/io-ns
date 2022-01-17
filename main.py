@@ -12,7 +12,7 @@ report_generator = ReportGenerator()
 
 def generate_file(output_path, size):
     f = open(output_path, 'w')
-    content = ''.join([random.choice(string.ascii_letters + string.digits + 'ĄĆĘŁŃÓŚŹŻąćęłńóśźż') for i in range(size)])
+    content = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(size)])
     f.write(content)
     f.close()
 

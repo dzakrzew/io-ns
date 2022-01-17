@@ -6,40 +6,51 @@ The goal of this project is to implement and compare multiple hash functions in 
 
 ## Implementations and languages*
 * SHA-1 in Python
-* ~~SHA-1 in C#~~
-* ~~SHA-1 in C++~~
+* SHA-1 in C#
+* SHA-1 in C++
 * SHA-256 in Python
-* ~~SHA-256 in C#~~
-* ~~SHA-256 in C++~~
+* SHA-256 in C#
+* SHA-256 in C++
 * SHA-512 in Python
-* ~~SHA-512 in C#~~
-* ~~SHA-512 in C++~~
-* ~~ADLER-32 in Python~~
-* ~~ADLER-32 in C#~~
-* ~~ADLER-32 in C++~~
+* SHA-512 in C#
+* SHA-512 in C++
+* ADLER-32 in Python
+* ADLER-32 in C#
+* ADLER-32 in C++
 * MD4 in Python
-* ~~MD4 in C#~~
-* ~~MD4 in C++~~
+* MD4 in C#
+* MD4 in C++
 * MD5 in Python
-* ~~MD5 in C#~~
-* ~~MD5 in C++~~
-* ~~CRC-16 in Python~~
-* ~~CRC-16 in C#~~
-* ~~CRC-16 in C++~~
-* ~~CRC-32 in Python~~
-* ~~CRC-32 in C#~~
-* ~~CRC-32 in C++~~
-* ~~BLAKE2s in Python~~
-* ~~BLAKE2s in C#~~
-* ~~BLAKE2s in C++~~
-* ~~BLAKE2b in Python~~
-* ~~BLAKE2b in C#~~
-* ~~BLAKE2b in C++~~
+* MD5 in C#
+* MD5 in C++
+* CRC-16 in Python
+* CRC-16 in C#
+* CRC-16 in C++
+* CRC-32 in Python
+* CRC-32 in C#
+* CRC-32 in C++
+* BLAKE2s in Python
+* BLAKE2s in C#
+* BLAKE2s in C++
+* BLAKE2b in Python
+* BLAKE2b in C#
+* BLAKE2b in C++
 
-*~~strike line~~ – not implemented yet
+*strike line – not implemented yet
 
 ## How to run
 This script will test every implementation using input files in `inputs/` directory. Then, the HTML report will be generated.
 ```
 python main.py
+```
+It is also possible to generate random input data with specified size for each execution of script:
+```
+python main.py --random-sizes 10,100,1024,10240,102400,1048576
+```
+The example above will test every implementation using 6 files in the following sizes: `10B`, `100B`, `1KiB`, `10KiB`, `100KiB`, `1MiB`.
+
+## Testing
+To execute automated tests that will check every implementation and compare results to Python built-in hash libraries, run the following command:
+```
+python test.py --generate
 ```
