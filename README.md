@@ -58,4 +58,4 @@ python test.py --generate
 
 ## Dependencies
 * To execute tests, it is necessary to install crccheck library: `pip install crccheck`
-* 
+* To run C# implementations, the Mono runtime is required: [See tutorial for Ubuntu 20.04](https://linuxize.com/post/how-to-install-mono-on-ubuntu-20-04/)
