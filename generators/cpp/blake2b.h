@@ -37,6 +37,6 @@ private:
     void compress(int last);
 
 public:
-    Blake2b(std::string key, std::string message);
+    Blake2b(std::string message);
     std::string digest();
 };

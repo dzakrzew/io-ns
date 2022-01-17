@@ -133,8 +133,9 @@ void Blake2b::finalHash()
     }
 }
 
-Blake2b::Blake2b(string key, string message)
+Blake2b::Blake2b(string message)
 {
+    string key = "";
     init(key);
     update(message);
     finalHash();
@@ -152,3 +153,15 @@ string Blake2b::digest() {
 
     return s;
 }
+
+
+/*int main() {
+    // klucz, wiadomość
+    // jeśli brak klucza to pusty string
+    Blake2b blake2b("hello");
+    string s = blake2b.digest();
+    cout << s << "\n";
+
+    return 0;
+}
+*/
