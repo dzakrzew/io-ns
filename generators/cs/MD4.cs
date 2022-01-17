@@ -32,7 +32,7 @@ namespace HashFunctions
             return lbits | rbits;
         }
 
-        public MD4(string input)
+        public void init(string input)
         {
             List<UInt32> message = new List<UInt32>();
 
@@ -71,8 +71,9 @@ namespace HashFunctions
             process(message_chunks);
         }
 
-        public string hexdigest()
+        public string Digest(string message)
         {
+            init(message);
             string s = "";
             foreach (UInt32 word in words)
             {
@@ -176,13 +177,5 @@ namespace HashFunctions
                 words[3] = (words[3] + h[3]) & mask;
             }
         }
-
-        /*static void Main(string[] args)
-        {
-            MD4 md4 = new MD4("hello");
-            Console.WriteLine(md4.hexdigest());
-
-        }
-        */
     }
 }

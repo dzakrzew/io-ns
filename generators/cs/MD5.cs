@@ -36,7 +36,7 @@ namespace HashFunctions
             return lbits | rbits;
         }
 
-        public MD5(string input)
+        public void init(string input)
         {
             List<UInt32> message = new List<UInt32>();
 
@@ -75,8 +75,10 @@ namespace HashFunctions
             process(message_chunks);
         }
 
-        public string hexdigest()
+        public string Digest(string message)
         {
+            init(message);
+
             string s = "";
             foreach (UInt32 word in words)
             {
@@ -123,7 +125,7 @@ namespace HashFunctions
                 // round 1
                 for (int n = 0; n < 16; n++)
                 {
-                    //modulo w C# działa inaczej na negatywnych intach niż python dlatego potrzebne są takie komplikacje
+                    //modulo w C++ działa inaczej na negatywnych intach niż python dlatego potrzebne są takie komplikacje
                     int a = (4 + ((-n + 0) % 4)) % 4;
                     int b = (4 + ((-n + 1) % 4)) % 4;
                     int c = (4 + ((-n + 2) % 4)) % 4;
@@ -213,13 +215,5 @@ namespace HashFunctions
                 words[3] = (words[3] + h[3]) & mask;
             }
         }
-
-        /*static void Main(string[] args)
-        {
-            MD5 md5 = new MD5("hello");
-            Console.WriteLine(md5.hexdigest());
-
-        }
-        */
     }
 }

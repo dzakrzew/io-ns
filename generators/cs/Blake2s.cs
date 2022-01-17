@@ -158,14 +158,12 @@ namespace HashFunctions
 
         }
 
-        public Blake2s(string key, string message) {
-            init(key);
+         public string Digest(string message)
+        {
+            init("");
             update(message);
             finalHash();
-        }
 
-        public string Digest()
-        {
             string s = "";
             foreach (UInt32 o in output)
                 s += o.ToString("x");

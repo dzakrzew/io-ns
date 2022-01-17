@@ -170,17 +170,14 @@ namespace HashFunctions
 
         }
 
-        public Blake2b(string key, string message)
+        public string Digest(string message)
         {
-            init(key);
+            init("");
             update(message);
             finalHash();
-        }
 
-        public string Digest()
-        {
             string s = "";
-            foreach (UInt64 o in output)
+            foreach (UInt32 o in output)
                 s += o.ToString("x");
 
             return s;
