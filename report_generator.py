@@ -1,5 +1,6 @@
 from datetime import datetime
 import os, platform, subprocess
+import webbrowser
 import json
 
 class ReportGenerator:
@@ -49,3 +50,5 @@ class ReportGenerator:
         f = open(os.path.join('reports', filename), 'w')
         f.write(html)
         f.close()
+
+        webbrowser.open(os.path.abspath(os.path.join('reports', filename)))
