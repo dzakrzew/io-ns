@@ -2,9 +2,7 @@
 using namespace std;
 
 ul Blake2s::Rotr32(ul x, ul y) {
-    ul temp = (((x) >> (y)) ^ ((x) << (32 - (y))));
-    cout << x << "   " << y  << "\n";
-    return temp;
+    return (((x) >> (y)) ^ ((x) << (32 - (y))));
 }
 
 ul Blake2s::Get32(uc b0, uc b1, uc b2, uc b3) {
@@ -13,13 +11,10 @@ ul Blake2s::Get32(uc b0, uc b1, uc b2, uc b3) {
     temp ^= (ul)b1 << 8;
     temp ^= (ul)b2 << 16;
     temp ^= (ul)b3 << 24;
-
     return temp;
 }
 
 void Blake2s::G(ul a, ul b, ul c, ul d, ul x, ul y) {
-   // cout << a << " " << b << " " << c << " " << d << " " << x << " " << y << " " << "\n";
-
     v[a] = v[a] + v[b] + x;
     v[d] = Rotr32(v[d] ^ v[a], 16);
     v[c] = v[c] + v[d];
@@ -47,7 +42,7 @@ void Blake2s::compress(int last)
     ul m[16];
 
     for (int i = 0; i < 8; i++) {           // init work variables
-        v[i] =h[i];
+        v[i] = h[i];
         v[i + 8] = blake2s_iv[i];
     }
 
@@ -60,7 +55,7 @@ void Blake2s::compress(int last)
     for (int i = 0; i < 16; i++) {
         m[i] = Get32(b[i * 4 + 0], b[i * 4 + 1], b[i * 4 + 2], b[i * 4 + 3]);
     }
-    //cout << v[0] << "  " << v[1] << "  " << v[15] << "\n";
+
     for (int i = 0; i < 10; i++) {
         G(0, 4, 8, 12, m[sigma[i][0]], m[sigma[i][1]]);
         G(1, 5, 9, 13, m[sigma[i][2]], m[sigma[i][3]]);
@@ -71,13 +66,9 @@ void Blake2s::compress(int last)
         G(2, 7, 8, 13, m[sigma[i][12]], m[sigma[i][13]]);
         G(3, 4, 9, 14, m[sigma[i][14]], m[sigma[i][15]]);
     }
-    //cout << v[0] << "  " << v[1] << "  " << v[15] << "\n";
 
-    for (int i = 0; i < 8; ++i) {
-
+    for (int i = 0; i < 8; ++i)
         h[i] ^= v[i] ^ v[i + 8];
-
-    }
 }
 
 void Blake2s::update(string chunks)
@@ -128,17 +119,15 @@ void Blake2s::finalHash()
         b[c++] = 0;
     compress(1);           // final block flag = 1
 
-    //for (int i = 0; i < 8; ++i) cout << h[i] << "   \n";
-
-
     // little endian convert and store
     for (int i = 0; i < outlen; i++) {
         output.push_back((h[i >> 2] >> (8 * (i & 3))) & 0xFF);
     }
 }
 
-Blake2s::Blake2s(string key, string message)
+Blake2s::Blake2s(string message)
 {
+    string key = "";
     init(key);
     update(message);
     finalHash();
@@ -156,3 +145,4 @@ string Blake2s::digest() {
 
     return s;
 }
+
