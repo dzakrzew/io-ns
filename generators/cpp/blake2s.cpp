@@ -3,7 +3,7 @@ using namespace std;
 
 ul Blake2s::Rotr32(ul x, ul y) {
     ul temp = (((x) >> (y)) ^ ((x) << (32 - (y))));
-    cout << x << "   " << y  << "\n";
+    // cout << x << "   " << y  << "\n";
     return temp;
 }
 
