@@ -145,7 +145,7 @@ string Blake2b::digest() {
     ss << std::hex;
     string s;
 
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < 64; i++) {
         ss  << std::setw(2) << std::setfill('0') << (int)output[i] << "";
     }
     ss >> s;

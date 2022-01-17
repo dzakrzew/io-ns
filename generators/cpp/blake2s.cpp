@@ -145,4 +145,3 @@ string Blake2s::digest() {
 
     return s;
 }
-

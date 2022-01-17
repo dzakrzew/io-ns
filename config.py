@@ -14,6 +14,6 @@ generators = {
 if platform.system() == 'Linux':
     generators = {
         'Python': 'python3 generators/python/hash.py',
-        'C++': './generators/cpp/main',
-        'C#': 'mono generators/cs/program.exe'
+        'C++': './generators/cpp/hash',
+        'C#': 'mono generators/cs/hash.exe'
     }

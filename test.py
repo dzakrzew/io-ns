@@ -17,8 +17,8 @@ def generate_file(output_path, size, include_polish = False):
 def generate_test_files():
     generate_file('tests/in_small.txt', 60)
     generate_file('tests/in_medium.txt', 1024*100)
-    generate_file('tests/in_big.txt', 1024*1024)
-    generate_file('tests/in_polish.txt', 1024*512, True)
+    generate_file('tests/in_big.txt', 1024*200)
+    generate_file('tests/in_polish.txt', 1024*10, True)
 
     outputs = {}
     test_inputs = glob.glob('tests/*.txt')
@@ -35,7 +35,9 @@ def generate_test_files():
             if method == 'blake2s':
                 digest = hashlib.blake2s(content).hexdigest()
             if method == 'crc16':
-                digest = str(crccheck.crc.Crc16X25(content)).split('check_result=0x')[1].split(',')[0]
+                c = crccheck.crc.Crc16X25()
+                c.process(content)
+                digest = c.finalhex()
             if method == 'crc32':
                 digest = hex(zlib.crc32(content) & 0xffffffff)[2:]
             if method == 'md4':
