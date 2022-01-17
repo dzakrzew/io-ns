@@ -165,9 +165,11 @@ namespace HashFunctions
             finalHash();
 
             string s = "";
-            foreach (UInt32 o in output)
+            foreach (UInt32 o in output) {
+                if (o.ToString("x").Length < 2)
+                    s += "0";
                 s += o.ToString("x");
-
+            }
             return s;
         }
     }
