@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace HashFunctions
 {
-    class Adler32
+    class Adler32 : IHashFunction
     {
         public const int MOD_ADLER = 65521;
 
-        public string Digest(string input)
+        public override string Digest(byte[] input)
         {
             List<UInt32> message = new List<UInt32>();
 

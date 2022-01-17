@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HashFunctions
 {
-    public class MD5
+    public class MD5 : IHashFunction
     {
         UInt32 mask = 0xFFFFFFFF;
         int width = 32;
@@ -36,7 +36,7 @@ namespace HashFunctions
             return lbits | rbits;
         }
 
-        public void init(string input)
+        public void init(byte[] input)
         {
             List<UInt32> message = new List<UInt32>();
 
@@ -75,7 +75,7 @@ namespace HashFunctions
             process(message_chunks);
         }
 
-        public string Digest(string message)
+        public override string Digest(byte[] message)
         {
             init(message);
 
