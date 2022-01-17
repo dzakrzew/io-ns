@@ -7,7 +7,7 @@
 #include <sstream>
 #include <iomanip>
 
-#define ul unsigned long
+#define ul uint32_t
 #define ull unsigned long long
 #define uc unsigned char
 
